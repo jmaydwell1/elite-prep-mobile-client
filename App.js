@@ -10,7 +10,9 @@ import UserProfile from './onboarding/userProfile';
 import SportsSelection from './onboarding/sportsSelection';
 import Notifications from './onboarding/notifications';
 import TournamentDetails from './onboarding/tournamentDetails';
-
+import AthleticStatus from './onboarding/athleticStatus';
+import GoalSetting from './onboarding/goalSetting';
+import BaselineReminder from './onboarding/baselineReminder';
 const StyledView = styled(View);
 const Stack = createNativeStackNavigator();
 
@@ -33,6 +35,9 @@ export default function App() {
             <Stack.Screen name="SportsSelection" component={SportsSelection} />
             <Stack.Screen name="Notifications" component={Notifications} />
             <Stack.Screen name="TournamentDetails" component={TournamentDetails} />
+            <Stack.Screen name="AthleticStatus" component={AthleticStatus} />
+            <Stack.Screen name="GoalSetting" component={GoalSetting} />
+            <Stack.Screen name="BaselineReminder" component={BaselineReminder} />
           </Stack.Navigator>
         </NavigationContainer>
       </StyledView>

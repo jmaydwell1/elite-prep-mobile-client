@@ -62,7 +62,7 @@ const TournamentDetails = () => {
         // TODO: Implement login logic
         console.log('Next pressed:', { milestone, date, course, location });
         Keyboard.dismiss();
-        navigation.navigate('');
+        navigation.navigate('AthleticStatus');
     };
 
     return (
