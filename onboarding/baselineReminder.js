@@ -51,7 +51,7 @@ const BaselineReminder = () => {
             
             Keyboard.dismiss();
             // Navigate to next screen after successful notification setup
-            navigation.navigate('Home'); // Replace 'Home' with your next screen name
+            navigation.navigate('BaselineQuestionnaire'); // Replace 'Home' with your next screen name
         } catch (error) {
             console.error('Error setting up notifications:', error);
         }
@@ -103,7 +103,7 @@ const BaselineReminder = () => {
                                 </LinearGradient>
                             </StyledTouchableOpacity>
 
-                            <StyledTouchableOpacity>
+                            <StyledTouchableOpacity onPress={() => navigation.navigate('BaselineQuestionnaire')}>
                                 <StyledText className="text-[#1DB2DF] text-sm font-semibold text-center">
                                     Skip
                                 </StyledText>

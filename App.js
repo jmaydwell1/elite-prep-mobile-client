@@ -13,6 +13,10 @@ import TournamentDetails from './onboarding/tournamentDetails';
 import AthleticStatus from './onboarding/athleticStatus';
 import GoalSetting from './onboarding/goalSetting';
 import BaselineReminder from './onboarding/baselineReminder';
+import BaselineQuestionnaire from './onboarding/baselineQuestionnaire';
+import Home from './onboarding/home';
+
+
 const StyledView = styled(View);
 const Stack = createNativeStackNavigator();
 
@@ -38,6 +42,8 @@ export default function App() {
             <Stack.Screen name="AthleticStatus" component={AthleticStatus} />
             <Stack.Screen name="GoalSetting" component={GoalSetting} />
             <Stack.Screen name="BaselineReminder" component={BaselineReminder} />
+            <Stack.Screen name="BaselineQuestionnaire" component={BaselineQuestionnaire} />
+            <Stack.Screen name="Home" component={Home} />
           </Stack.Navigator>
         </NavigationContainer>
       </StyledView>
