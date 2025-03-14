@@ -14,6 +14,11 @@ import { styled } from 'nativewind';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import Logo from '../assets/logo.png';
+import Focus from '../assets/focus.png';
+import PerformanceAnxiety from '../assets/performance-anxiety.png';
+import Enjoyment from '../assets/enjoyment.png';
+import Stress from '../assets/stress.png';
+import Confidence from '../assets/confidence.png';
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
@@ -84,114 +89,120 @@ const Home = () => {
                         <StyledView className="items-center -mt-12 -mb-16">
                             <Image
                                 source={Logo}
-                                className="w-80 h-80"
+                                className="w-60 h-60"
                                 resizeMode="contain"
                             />
                         </StyledView>
 
                         {/* Countdown Section */}
-                        <StyledView className="bg-[#2D2D2E] rounded-lg p-4 mb-8">
-                            <StyledText className="text-white text-lg mb-2">
-                                Next Event In:
-                            </StyledText>
-                            <StyledView className="flex-row justify-between">
-                                <StyledView className="items-center">
-                                    <StyledText className="text-[#58C5C7] text-2xl font-bold">
-                                        {timeLeft.days}
-                                    </StyledText>
-                                    <StyledText className="text-[#89898A]">Days</StyledText>
-                                </StyledView>
-                                <StyledView className="items-center">
-                                    <StyledText className="text-[#58C5C7] text-2xl font-bold">
-                                        {timeLeft.hours}
-                                    </StyledText>
-                                    <StyledText className="text-[#89898A]">Hours</StyledText>
-                                </StyledView>
-                                <StyledView className="items-center">
-                                    <StyledText className="text-[#58C5C7] text-2xl font-bold">
-                                        {timeLeft.minutes}
-                                    </StyledText>
-                                    <StyledText className="text-[#89898A]">Minutes</StyledText>
-                                </StyledView>
-                                <StyledView className="items-center">
-                                    <StyledText className="text-[#58C5C7] text-2xl font-bold">
-                                        {timeLeft.seconds}
-                                    </StyledText>
-                                    <StyledText className="text-[#89898A]">Seconds</StyledText>
-                                </StyledView>
+                        <StyledText className="text-[#89898A] text-xl font-semibold mb-10 text-center">
+                            Your Next Milestone
+                        </StyledText>
+                        <StyledView className="flex-row justify-center items-center gap-2 mb-8">
+                            <StyledTouchableOpacity 
+                                className="items-center"
+                                onPress={() => navigation.navigate('LineGraph')}
+                            >
+                                <StyledText className="text-white text-6xl font-bold">
+                                    12
+                                </StyledText>
+                                <StyledText className="text-[#89898A]">Days</StyledText>
+                            </StyledTouchableOpacity>
+                            <StyledView className="h-[64px] justify-center">
+                                <StyledText className="text-white text-4xl font-bold">:</StyledText>
                             </StyledView>
+                            <StyledTouchableOpacity 
+                                className="items-center"
+                                onPress={() => navigation.navigate('LineGraph')}
+                            >
+                                <StyledText className="text-white text-6xl font-bold">
+                                    10
+                                </StyledText>
+                                <StyledText className="text-[#89898A]">Hours</StyledText>
+                            </StyledTouchableOpacity>
+                            <StyledView className="h-[64px] justify-center">
+                                <StyledText className="text-white text-4xl font-bold">:</StyledText>
+                            </StyledView>
+                            <StyledTouchableOpacity 
+                                className="items-center"
+                                onPress={() => navigation.navigate('LineGraph')}
+                            >
+                                <StyledText className="text-[#F6FF6B] text-6xl font-bold">
+                                    24
+                                </StyledText>
+                                <StyledText className="text-[#89898A]">Minutes</StyledText>
+                            </StyledTouchableOpacity>
                         </StyledView>
 
                         {/* Baseline Results Section */}
-
-                        <StyledText className="text-white text-lg mb-4">
-                            Performance Trends:
+                        <StyledText className="text-white text-xl font-semibold mb-4">
+                            Performance Trends
                         </StyledText>
-                        <StyledView className="space-y-4">
-                            <StyledView className="bg-[#2D2D2E] rounded-lg p-4">
+                        <StyledView className="space-y-3">
+                            <StyledTouchableOpacity 
+                                onPress={() => navigation.navigate('LineGraph', { trend: 'Focus' })}
+                                className="bg-[#3D3D3E] rounded-lg p-4"
+                            >
                                 <StyledView className="flex-row justify-between items-center">
-                                    <StyledText className="text-white">Confidence Level</StyledText>
-                                    <StyledText className="text-white text-xl font-bold">
-                                        {baselineResults.confidence}
-                                    </StyledText>
+                                    <StyledView className="flex-row items-center">
+                                        <Image source={Focus} className="w-6 h-6 mr-3" />
+                                        <StyledText className="text-white text-xl font-semibold">Focus</StyledText>
+                                    </StyledView>
+                                    <StyledText className="text-white text-2xl font-bold">7</StyledText>
                                 </StyledView>
-                            </StyledView>
-                            <StyledView className="bg-[#2D2D2E] rounded-lg p-4">
+                            </StyledTouchableOpacity>
+
+                            <StyledTouchableOpacity 
+                                onPress={() => navigation.navigate('LineGraph', { trend: 'Performance Anxiety' })}
+                                className="bg-[#3D3D3E] rounded-lg p-4"
+                            >
                                 <StyledView className="flex-row justify-between items-center">
-                                    <StyledText className="text-white">Focus Level</StyledText>
-                                    <StyledText className="text-white text-xl font-bold">
-                                        {baselineResults.focus}
-                                    </StyledText>
+                                    <StyledView className="flex-row items-center">
+                                        <Image source={PerformanceAnxiety} className="w-6 h-6 mr-3" />
+                                        <StyledText className="text-white text-xl font-semibold">Performance Anxiety</StyledText>
+                                    </StyledView>
+                                    <StyledText className="text-white text-2xl font-bold">5</StyledText>
                                 </StyledView>
-                            </StyledView>
-                            <StyledView className="bg-[#2D2D2E] rounded-lg p-4">
+                            </StyledTouchableOpacity>
+
+                            <StyledTouchableOpacity 
+                                onPress={() => navigation.navigate('LineGraph', { trend: 'Enjoyment' })}
+                                className="bg-[#3D3D3E] rounded-lg p-4"
+                            >
                                 <StyledView className="flex-row justify-between items-center">
-                                    <StyledText className="text-white">Performance Anxiety</StyledText>
-                                    <StyledText className="text-white text-xl font-bold">
-                                        {baselineResults.anxiety}
-                                    </StyledText>
+                                    <StyledView className="flex-row items-center">
+                                        <Image source={Enjoyment} className="w-6 h-6 mr-3" />
+                                        <StyledText className="text-white text-xl font-bold">Enjoyment</StyledText>
+                                    </StyledView>
+                                    <StyledText className="text-white text-2xl font-bold">9</StyledText>
                                 </StyledView>
-                            </StyledView>
-                            <StyledView className="bg-[#2D2D2E] rounded-lg p-4">
+                            </StyledTouchableOpacity>
+
+                            <StyledTouchableOpacity 
+                                onPress={() => navigation.navigate('LineGraph', { trend: 'Burnout' })}
+                                className="bg-[#3D3D3E] rounded-lg p-4"
+                            >
                                 <StyledView className="flex-row justify-between items-center">
-                                    <StyledText className="text-white">Enjoyment Level</StyledText>
-                                    <StyledText className="text-white text-xl font-bold">
-                                        {baselineResults.enjoyment}
-                                    </StyledText>
+                                    <StyledView className="flex-row items-center">
+                                        <Image source={Stress} className="w-6 h-6 mr-3" />
+                                        <StyledText className="text-white text-xl font-semibold">Burnout</StyledText>
+                                    </StyledView>
+                                    <StyledText className="text-white text-2xl font-bold">4</StyledText>
                                 </StyledView>
-                            </StyledView>
-                            <StyledView className="bg-[#2D2D2E] rounded-lg p-4">
+                            </StyledTouchableOpacity>
+
+                            <StyledTouchableOpacity 
+                                onPress={() => navigation.navigate('LineGraph', { trend: 'Confidence' })}
+                                className="bg-[#3D3D3E] rounded-lg p-4"
+                            >
                                 <StyledView className="flex-row justify-between items-center">
-                                    <StyledText className="text-white">Burnout Level</StyledText>
-                                    <StyledText className="text-white text-xl font-bold">
-                                        {baselineResults.burnout}
-                                    </StyledText>
+                                    <StyledView className="flex-row items-center">
+                                        <Image source={Confidence} className="w-6 h-6 mr-3" />
+                                        <StyledText className="text-white text-xl font-semibold">Confidence</StyledText>
+                                    </StyledView>
+                                    <StyledText className="text-white text-2xl font-bold">7</StyledText>
                                 </StyledView>
-                            </StyledView>
-                            <StyledView className="bg-[#2D2D2E] rounded-lg p-4">
-                                <StyledView className="flex-row justify-between items-center">
-                                    <StyledText className="text-white">Effort Level</StyledText>
-                                    <StyledText className="text-white text-xl font-bold">
-                                        {baselineResults.effort}
-                                    </StyledText>
-                                </StyledView>
-                            </StyledView>
-                            <StyledView className="bg-[#2D2D2E] rounded-lg p-4">
-                                <StyledView className="flex-row justify-between items-center">
-                                    <StyledText className="text-white">Motivation Level</StyledText>
-                                    <StyledText className="text-white text-xl font-bold">
-                                        {baselineResults.motivation}
-                                    </StyledText>
-                                </StyledView>
-                            </StyledView>
-                            <StyledView className="bg-[#2D2D2E] rounded-lg p-4">
-                                <StyledView className="flex-row justify-between items-center">
-                                    <StyledText className="text-white">Readiness Level</StyledText>
-                                    <StyledText className="text-white text-xl font-bold">
-                                        {baselineResults.readiness}
-                                    </StyledText>
-                                </StyledView>
-                            </StyledView>
+                            </StyledTouchableOpacity>
                         </StyledView>
 
                     </StyledView>

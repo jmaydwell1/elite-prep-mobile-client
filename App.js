@@ -15,7 +15,7 @@ import GoalSetting from './onboarding/goalSetting';
 import BaselineReminder from './onboarding/baselineReminder';
 import BaselineQuestionnaire from './onboarding/baselineQuestionnaire';
 import Home from './onboarding/home';
-
+import LineGraph from './onboarding/lineGraph';
 
 const StyledView = styled(View);
 const Stack = createNativeStackNavigator();
@@ -44,6 +44,7 @@ export default function App() {
             <Stack.Screen name="BaselineReminder" component={BaselineReminder} />
             <Stack.Screen name="BaselineQuestionnaire" component={BaselineQuestionnaire} />
             <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="LineGraph" component={LineGraph} />
           </Stack.Navigator>
         </NavigationContainer>
       </StyledView>
