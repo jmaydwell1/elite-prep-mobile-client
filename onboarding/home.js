@@ -208,6 +208,25 @@ const Home = () => {
                     </StyledView>
                 </ScrollView>
             </KeyboardAvoidingView>
+            {/* Bottom Navigation Bar */}
+            <StyledView className="bg-[#1C1C1D] flex-row justify-around py-4 px-5">
+                <StyledTouchableOpacity className="items-center">
+                    <Ionicons name="home" size={24} color="#FFFFFF" />
+                    <StyledText className="text-white mt-1">Home</StyledText>
+                </StyledTouchableOpacity>
+                <StyledTouchableOpacity className="items-center" onPress={() => navigation.navigate('Performance')}>
+                    <Ionicons name="stats-chart" size={24} color="#89898A" />
+                    <StyledText className="text-[#89898A] mt-1">Performance</StyledText>
+                </StyledTouchableOpacity>
+                <StyledTouchableOpacity className="items-center">
+                    <Ionicons name="journal" size={24} color="#89898A" />
+                    <StyledText className="text-[#89898A] mt-1">Journaling</StyledText>
+                </StyledTouchableOpacity>
+                <StyledTouchableOpacity className="items-center">
+                    <Ionicons name="time" size={24} color="#89898A" />
+                    <StyledText className="text-[#89898A] mt-1">History</StyledText>
+                </StyledTouchableOpacity>
+            </StyledView>
         </SafeAreaView>
     );
 };
