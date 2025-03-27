@@ -17,6 +17,17 @@ import BaselineQuestionnaire from './onboarding/baselineQuestionnaire';
 import Home from './onboarding/home';
 import LineGraph from './onboarding/lineGraph';
 import Performance from './onboarding/performance';
+import StartPractice from './onboarding/StartPractice';
+import PhysicalPractice from './onboarding/PhysicalPractice';
+import Settings from './onboarding/Settings';
+import PracticeType from './onboarding/PracticeType';
+import SkillsPractice from './onboarding/SkillsPractice';
+import ShortGameReflection from './onboarding/ShortGameReflection';
+import TeeShotsReflection from './onboarding/TeeShotsReflection';
+import ApproachShotsReflection from './onboarding/ApproachShotsReflection';
+import PuttingReflection from './onboarding/PuttingReflection';
+import RoundReflection from './onboarding/RoundReflection';
+
 const StyledView = styled(View);
 const Stack = createNativeStackNavigator();
 
@@ -46,6 +57,16 @@ export default function App() {
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="LineGraph" component={LineGraph} />
             <Stack.Screen name="Performance" component={Performance} />
+            <Stack.Screen name="StartPractice" component={StartPractice} />
+            <Stack.Screen name="PhysicalPractice" component={PhysicalPractice} />
+            <Stack.Screen name="Settings" component={Settings} />
+            <Stack.Screen name="PracticeType" component={PracticeType} />
+            <Stack.Screen name="SkillsPractice" component={SkillsPractice} />
+            <Stack.Screen name="ShortGameReflection" component={ShortGameReflection} />
+            <Stack.Screen name="TeeShotsReflection" component={TeeShotsReflection} />
+            <Stack.Screen name="ApproachShotsReflection" component={ApproachShotsReflection} />
+            <Stack.Screen name="PuttingReflection" component={PuttingReflection} />
+            <Stack.Screen name="RoundReflection" component={RoundReflection} />
           </Stack.Navigator>
         </NavigationContainer>
       </StyledView>

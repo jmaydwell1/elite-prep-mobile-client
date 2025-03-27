@@ -6,6 +6,7 @@ import { LineChart } from 'react-native-chart-kit';
 import { Dimensions } from 'react-native';
 import Logo from '../assets/logo.png';
 import { LinearGradient } from 'expo-linear-gradient';
+import FloatingActionButton from '../components/FloatingActionButton';
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
@@ -421,6 +422,7 @@ const Performance = ({ navigation }) => {
                     <StyledText className="text-[#89898A] mt-1">History</StyledText>
                 </StyledTouchableOpacity>
             </StyledView>
+            <FloatingActionButton navigation={navigation} />
         </SafeAreaView>
     );
 };

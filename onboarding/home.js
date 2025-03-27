@@ -19,6 +19,7 @@ import PerformanceAnxiety from '../assets/performance-anxiety.png';
 import Enjoyment from '../assets/enjoyment.png';
 import Stress from '../assets/stress.png';
 import Confidence from '../assets/confidence.png';
+import FloatingActionButton from '../components/FloatingActionButton';
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
@@ -227,6 +228,7 @@ const Home = () => {
                     <StyledText className="text-[#89898A] mt-1">History</StyledText>
                 </StyledTouchableOpacity>
             </StyledView>
+            <FloatingActionButton navigation={navigation} />
         </SafeAreaView>
     );
 };
