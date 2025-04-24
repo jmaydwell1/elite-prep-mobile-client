@@ -95,11 +95,10 @@ const Performance = ({ navigation }) => {
                                 <StyledTouchableOpacity
                                     key={period.id}
                                     onPress={() => setSelectedPeriod(period.id)}
-                                    className={`flex-1 py-2 px-4 rounded-lg mx-1 overflow-hidden relative ${
-                                        selectedPeriod === period.id
+                                    className={`flex-1 py-2 px-4 rounded-lg mx-1 overflow-hidden relative ${selectedPeriod === period.id
                                             ? 'bg-transparent'
                                             : 'bg-transparent'
-                                    }`}
+                                        }`}
                                 >
                                     {selectedPeriod === period.id && (
                                         <LinearGradient
@@ -117,11 +116,10 @@ const Performance = ({ navigation }) => {
                                         />
                                     )}
                                     <StyledText
-                                        className={`text-center font-medium relative z-10 ${
-                                            selectedPeriod === period.id
+                                        className={`text-center font-medium relative z-10 ${selectedPeriod === period.id
                                                 ? 'text-white'
                                                 : 'text-[#89898A]'
-                                        }`}
+                                            }`}
                                     >
                                         {period.label}
                                     </StyledText>
@@ -131,112 +129,136 @@ const Performance = ({ navigation }) => {
                     </StyledView>
 
                     {/* Total Practice Time Breakdown */}
-                    <StyledView className="bg-[#2D2D2E] rounded-lg p-4 mb-6">
-                        <StyledText className="text-white text-lg font-semibold mb-4">
-                            Total Practice Time
-                        </StyledText>
-                        <StyledView>
-                            <StyledView className="flex-row justify-between mb-2">
-                                <StyledText className="text-[#89898A]">Physical Practice</StyledText>
-                                <StyledText className="text-[#89898A]">Mental Practice</StyledText>
-                            </StyledView>
-                            <StyledView className="h-4 bg-[#3D3D3E] rounded-full overflow-hidden flex-row">
-                                <StyledView className={`h-full w-[${currentData.practiceTime.physical}%] bg-[#F6FF6B]`} />
-                                <StyledView className={`h-full w-[${currentData.practiceTime.mental}%] bg-[#89898A]`} />
-                            </StyledView>
-                            <StyledView className="flex-row justify-between mt-2">
-                                <StyledText className="text-[#89898A]">{currentData.practiceTime.physical}%</StyledText>
-                                <StyledText className="text-[#89898A]">{currentData.practiceTime.mental}%</StyledText>
-                            </StyledView>
+                    <StyledView className="bg-[#3D3D3E] rounded-lg p-4 mb-3">
+                        <StyledText className="text-white text-lg font-semibold mb-4">Total Practice Time</StyledText>
+                        <StyledView className="h-6 bg-[#F6FF6B] rounded-full overflow-hidden">
+                            <StyledView
+                                className="h-full bg-[#58C5C7] rounded-full"
+                                style={{ width: '70%' }}
+                            />
+                        </StyledView>
+                        <StyledView className="flex-row justify-between mt-2">
+                            <StyledText className="text-white text-sm">Physical: 70%</StyledText>
+                            <StyledText className="text-white text-sm">Mental: 30%</StyledText>
                         </StyledView>
                     </StyledView>
 
                     {/* Physical Practice Breakdown */}
-                    <StyledView className="bg-[#2D2D2E] rounded-lg p-4 mb-6">
-                        <StyledText className="text-white text-lg font-semibold mb-4">
-                            Physical Practice Breakdown
-                        </StyledText>
-                        <StyledView className="space-y-4">
-                            <StyledView>
-                                <StyledView className="flex-row justify-between mb-2">
-                                    <StyledText className="text-[#89898A]">Competitive Practice</StyledText>
-                                    <StyledText className="text-[#89898A]">{currentData.competitive}%</StyledText>
-                                </StyledView>
-                                <StyledView className="h-4 bg-[#3D3D3E] rounded-full overflow-hidden">
-                                    <StyledView className={`h-full w-[${currentData.competitive}%] bg-[#F6FF6B]`} />
-                                </StyledView>
-                            </StyledView>
-                            <StyledView>
-                                <StyledView className="flex-row justify-between mb-2">
-                                    <StyledText className="text-[#89898A]">Indoor Practice</StyledText>
-                                    <StyledText className="text-[#89898A]">Outdoor Practice</StyledText>
-                                </StyledView>
-                                <StyledView className="h-4 bg-[#3D3D3E] rounded-full overflow-hidden flex-row">
-                                    <StyledView className={`h-full w-[${currentData.indoor}%] bg-[#F6FF6B]`} />
-                                    <StyledView className={`h-full w-[${currentData.outdoor}%] bg-[#89898A]`} />
-                                </StyledView>
-                                <StyledView className="flex-row justify-between mt-2">
-                                    <StyledText className="text-[#89898A]">{currentData.indoor}%</StyledText>
-                                    <StyledText className="text-[#89898A]">{currentData.outdoor}%</StyledText>
-                                </StyledView>
-                            </StyledView>
+                    <StyledView className="bg-[#3D3D3E] rounded-lg p-4 mb-3">
+                        <StyledText className="text-white text-lg font-semibold mb-4">Physical Practice</StyledText>
+                        <StyledText className="text-white text-sm mb-1">Competitive: 70%</StyledText>
+                        <StyledView className="h-6 bg-white rounded-full overflow-hidden">
+                            <StyledView
+                                className="h-full bg-[#0087B8] rounded-full"
+                                style={{ width: '70%' }}
+                            />
+                        </StyledView>
+                        <StyledView className="flex-row justify-between mt-4 mb-1">
+                            <StyledText className="text-white text-sm">Indoor: 63%</StyledText>
+                            <StyledText className="text-white text-sm">Outdoor: 37%</StyledText>
+                        </StyledView>
+                        <StyledView className="h-6 bg-white rounded-full overflow-hidden">
+                            <StyledView
+                                className="h-full bg-[#0087B8] rounded-full"
+                                style={{ width: '63%' }}
+                            />
                         </StyledView>
                     </StyledView>
 
                     {/* Practice Type Breakdown */}
-                    <StyledView className="bg-[#2D2D2E] rounded-lg p-4 mb-6">
-                        <StyledText className="text-white text-lg font-semibold mb-4">
-                            Practice Type
-                        </StyledText>
-                        <StyledView>
-                            <StyledView className="flex-row justify-between mb-2">
-                                <StyledText className="text-[#89898A]">Play</StyledText>
-                                <StyledText className="text-[#89898A]">Casual Play</StyledText>
-                                <StyledText className="text-[#89898A]">Intentional Practice</StyledText>
-                                <StyledText className="text-[#89898A]">Equipment Sessions</StyledText>
+                    <StyledView className="bg-[#3D3D3E] rounded-lg p-4 mb-3">
+                        <StyledText className="text-white text-lg font-semibold mb-4">Practice Type</StyledText>
+                        
+                        {/* Color Indicators and Labels */}
+                        <StyledView className="flex-row justify-between mb-2">
+                            <StyledView className="flex-row items-center">
+                                <StyledView className="w-3 h-3 bg-[#F6FF6B] rounded-full mr-1" />
+                                <StyledText className="text-white text-sm">Play</StyledText>
                             </StyledView>
-                            <StyledView className="h-4 bg-[#3D3D3E] rounded-full overflow-hidden flex-row">
-                                <StyledView className={`h-full w-[${currentData.practiceType.play}%] bg-[#F6FF6B]`} />
-                                <StyledView className={`h-full w-[${currentData.practiceType.casual}%] bg-[#89898A]`} />
-                                <StyledView className={`h-full w-[${currentData.practiceType.intentional}%] bg-[#F6FF6B]`} />
-                                <StyledView className={`h-full w-[${currentData.practiceType.equipment}%] bg-[#89898A]`} />
+                            <StyledView className="flex-row items-center">
+                                <StyledView className="w-3 h-3 bg-[#C3DAC3] rounded-full mr-1" />
+                                <StyledText className="text-white text-sm">Intentional</StyledText>
                             </StyledView>
-                            <StyledView className="flex-row justify-between mt-2">
-                                <StyledText className="text-[#89898A]">{currentData.practiceType.play}%</StyledText>
-                                <StyledText className="text-[#89898A]">{currentData.practiceType.casual}%</StyledText>
-                                <StyledText className="text-[#89898A]">{currentData.practiceType.intentional}%</StyledText>
-                                <StyledText className="text-[#89898A]">{currentData.practiceType.equipment}%</StyledText>
+                            <StyledView className="flex-row items-center">
+                                <StyledView className="w-3 h-3 bg-zinc-400 rounded-full mr-1" />
+                                <StyledText className="text-white text-sm">Casual</StyledText>
                             </StyledView>
+                            <StyledView className="flex-row items-center">
+                                <StyledView className="w-3 h-3 bg-indigo-400 rounded-full mr-1" />
+                                <StyledText className="text-white text-sm">Equipment</StyledText>
+                            </StyledView>
+                        </StyledView>
+
+                        {/* Bar Graph with Percentages */}
+                        <StyledView className="relative">
+                            <StyledView className="h-6 bg-[#E5E5E5] rounded-full overflow-hidden flex-row">
+                                <StyledView
+                                    className="h-full bg-[#F6FF6B]"
+                                    style={{ width: `${currentData.practiceType.play}%` }}
+                                />
+                                <StyledView
+                                    className="h-full bg-[#C3DAC3]"
+                                    style={{ width: `${currentData.practiceType.intentional}%` }}
+                                />
+                                <StyledView
+                                    className="h-full bg-zinc-400"
+                                    style={{ width: `${currentData.practiceType.casual}%` }}
+                                />
+                                <StyledView
+                                    className="h-full bg-indigo-400"
+                                    style={{ width: `${currentData.practiceType.equipment}%` }}
+                                />
+                            </StyledView>
+                        
                         </StyledView>
                     </StyledView>
 
-                    {/* Shot Type Breakdown */}
-                    <StyledView className="bg-[#2D2D2E] rounded-lg p-4 mb-6">
-                        <StyledText className="text-white text-lg font-semibold mb-4">
-                            Shot Type
-                        </StyledText>
-                        <StyledView>
-                            <StyledView className="flex-row justify-between mb-2">
-                                <StyledText className="text-[#89898A]">Tee Shots</StyledText>
-                                <StyledText className="text-[#89898A]">Short Game</StyledText>
-                                <StyledText className="text-[#89898A]">Approach</StyledText>
-                                <StyledText className="text-[#89898A]">Putting</StyledText>
-                                <StyledText className="text-[#89898A]">Custom</StyledText>
+                    {/* Skills Practiced */}
+                    <StyledView className="bg-[#3D3D3E] rounded-lg p-4 mb-3">
+                        <StyledText className="text-white text-lg font-semibold mb-4">Skills Practiced</StyledText>
+                        
+                        {/* Color Indicators and Labels */}
+                        <StyledView className="flex-row justify-between mb-2">
+                            <StyledView className="flex-row items-center">
+                                <StyledView className="w-3 h-3 bg-[#F6FF6B] rounded-full mr-1" />
+                                <StyledText className="text-white text-sm">Tee</StyledText>
                             </StyledView>
-                            <StyledView className="h-4 bg-[#3D3D3E] rounded-full overflow-hidden flex-row">
-                                <StyledView className={`h-full w-[${currentData.shotType.tee}%] bg-[#F6FF6B]`} />
-                                <StyledView className={`h-full w-[${currentData.shotType.short}%] bg-[#89898A]`} />
-                                <StyledView className={`h-full w-[${currentData.shotType.approach}%] bg-[#F6FF6B]`} />
-                                <StyledView className={`h-full w-[${currentData.shotType.putting}%] bg-[#89898A]`} />
-                                <StyledView className={`h-full w-[${currentData.shotType.custom}%] bg-[#F6FF6B]`} />
+                            <StyledView className="flex-row items-center">
+                                <StyledView className="w-3 h-3 bg-[#C3DAC3] rounded-full mr-1" />
+                                <StyledText className="text-white text-sm">Approach</StyledText>
                             </StyledView>
-                            <StyledView className="flex-row justify-between mt-2">
-                                <StyledText className="text-[#89898A]">{currentData.shotType.tee}%</StyledText>
-                                <StyledText className="text-[#89898A]">{currentData.shotType.short}%</StyledText>
-                                <StyledText className="text-[#89898A]">{currentData.shotType.approach}%</StyledText>
-                                <StyledText className="text-[#89898A]">{currentData.shotType.putting}%</StyledText>
-                                <StyledText className="text-[#89898A]">{currentData.shotType.custom}%</StyledText>
+                            <StyledView className="flex-row items-center">
+                                <StyledView className="w-3 h-3 bg-zinc-400 rounded-full mr-1" />
+                                <StyledText className="text-white text-sm">Short</StyledText>
                             </StyledView>
+                            <StyledView className="flex-row items-center">
+                                <StyledView className="w-3 h-3 bg-indigo-400 rounded-full mr-1" />
+                                <StyledText className="text-white text-sm">Putting</StyledText>
+                            </StyledView>
+                            
+                        </StyledView>
+
+                        {/* Bar Graph with Percentages */}
+                        <StyledView className="relative">
+                            <StyledView className="h-6 bg-[#E5E5E5] rounded-full overflow-hidden flex-row">
+                                <StyledView
+                                    className="h-full bg-[#F6FF6B]"
+                                    style={{ width: `${currentData.practiceType.play}%` }}
+                                />
+                                <StyledView
+                                    className="h-full bg-[#C3DAC3]"
+                                    style={{ width: `${currentData.practiceType.intentional}%` }}
+                                />
+                                <StyledView
+                                    className="h-full bg-zinc-400"
+                                    style={{ width: `${currentData.practiceType.casual}%` }}
+                                />
+                                <StyledView
+                                    className="h-full bg-indigo-400"
+                                    style={{ width: `${currentData.practiceType.equipment}%` }}
+                                />
+                            </StyledView>
+                        
                         </StyledView>
                     </StyledView>
 
@@ -245,7 +267,7 @@ const Performance = ({ navigation }) => {
                         <StyledText className="text-white text-lg font-semibold mb-4">
                             Session Quality
                         </StyledText>
-                        <StyledView className="h-40">
+                        <StyledView className="h-40 mb-6">
                             <LineChart
                                 data={{
                                     labels: currentData.labels,
@@ -288,7 +310,38 @@ const Performance = ({ navigation }) => {
                                 yAxisInterval={2}
                                 style={{
                                     marginVertical: 8,
-                                    borderRadius: 16
+                                    borderRadius: 6
+                                }}
+                                getDotColor={(dataPoint, dataPointIndex) => {
+                                    return "#F6FF6B";
+                                }}
+                                renderDotContent={({ x, y, index, indexData }) => {
+                                    return (
+                                        <StyledView
+                                            key={index}
+                                            style={{
+                                                position: 'absolute',
+                                                top: y - 20,
+                                                left: x - 10,
+                                            }}
+                                        >
+                                            <StyledText className="text-[#F6FF6B] text-xs">
+                                                {indexData}
+                                            </StyledText>
+                                        </StyledView>
+                                    );
+                                }}
+                                formatXLabel={(value) => {
+                                    if (selectedPeriod === 'year') {
+                                        // Get the index of the current label
+                                        const index = currentData.labels.indexOf(value);
+                                        // Only show every other month
+                                        if (index % 2 === 0) {
+                                            return value.substring(0, 3);
+                                        }
+                                        return '';
+                                    }
+                                    return value;
                                 }}
                             />
                         </StyledView>
@@ -299,7 +352,7 @@ const Performance = ({ navigation }) => {
                         <StyledText className="text-white text-lg font-semibold mb-4">
                             Focus Level
                         </StyledText>
-                        <StyledView className="h-40">
+                        <StyledView className="h-40 mb-6">
                             <LineChart
                                 data={{
                                     labels: currentData.labels,
@@ -344,6 +397,37 @@ const Performance = ({ navigation }) => {
                                     marginVertical: 8,
                                     borderRadius: 16
                                 }}
+                                getDotColor={(dataPoint, dataPointIndex) => {
+                                    return "#F6FF6B";
+                                }}
+                                renderDotContent={({ x, y, index, indexData }) => {
+                                    return (
+                                        <StyledView
+                                            key={index}
+                                            style={{
+                                                position: 'absolute',
+                                                top: y - 20,
+                                                left: x - 10,
+                                            }}
+                                        >
+                                            <StyledText className="text-[#F6FF6B] text-xs">
+                                                {indexData}
+                                            </StyledText>
+                                        </StyledView>
+                                    );
+                                }}
+                                formatXLabel={(value) => {
+                                    if (selectedPeriod === 'year') {
+                                        // Get the index of the current label
+                                        const index = currentData.labels.indexOf(value);
+                                        // Only show every other month
+                                        if (index % 2 === 0) {
+                                            return value.substring(0, 3);
+                                        }
+                                        return '';
+                                    }
+                                    return value;
+                                }}
                             />
                         </StyledView>
                     </StyledView>
@@ -353,7 +437,7 @@ const Performance = ({ navigation }) => {
                         <StyledText className="text-white text-lg font-semibold mb-4">
                             Progress Towards Goal
                         </StyledText>
-                        <StyledView className="h-40">
+                        <StyledView className="h-40 mb-6">
                             <LineChart
                                 data={{
                                     labels: currentData.labels,
@@ -396,7 +480,38 @@ const Performance = ({ navigation }) => {
                                 yAxisInterval={2}
                                 style={{
                                     marginVertical: 8,
-                                    borderRadius: 16
+                                    borderRadius: 10,
+                                }}
+                                getDotColor={(dataPoint, dataPointIndex) => {
+                                    return "#F6FF6B";
+                                }}
+                                renderDotContent={({ x, y, index, indexData }) => {
+                                    return (
+                                        <StyledView
+                                            key={index}
+                                            style={{
+                                                position: 'absolute',
+                                                top: y - 20,
+                                                left: x - 10,
+                                            }}
+                                        >
+                                            <StyledText className="text-[#F6FF6B] text-xs">
+                                                {indexData}
+                                            </StyledText>
+                                        </StyledView>
+                                    );
+                                }}
+                                formatXLabel={(value) => {
+                                    if (selectedPeriod === 'year') {
+                                        // Get the index of the current label
+                                        const index = currentData.labels.indexOf(value);
+                                        // Only show every other month
+                                        if (index % 2 === 0) {
+                                            return value.substring(0, 3);
+                                        }
+                                        return '';
+                                    }
+                                    return value;
                                 }}
                             />
                         </StyledView>

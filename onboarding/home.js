@@ -8,6 +8,7 @@ import {
     Image,
     KeyboardAvoidingView,
     Platform,
+    Dimensions
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { styled } from 'nativewind';
@@ -20,10 +21,14 @@ import Enjoyment from '../assets/enjoyment.png';
 import Stress from '../assets/stress.png';
 import Confidence from '../assets/confidence.png';
 import FloatingActionButton from '../components/FloatingActionButton';
+import { Svg, Circle } from 'react-native-svg';
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
 const StyledTouchableOpacity = styled(TouchableOpacity);
+
+const SIZE = 64;  // same as w-24,h-24 → 24*4px
+const STROKE = 8;   // same as border-8
 
 const Home = () => {
     const navigation = useNavigation();
@@ -45,6 +50,19 @@ const Home = () => {
         motivation: 9,
         readiness: 7
     };
+
+    // Calculate average readiness score
+    const calculateReadinessScore = () => {
+        const values = Object.values(baselineResults);
+        const sum = values.reduce((acc, val) => acc + val, 0);
+        return Math.round(sum / values.length);
+    };
+
+    const progress = (calculateReadinessScore() / 10) * 100;
+
+    const R = (SIZE - STROKE) / 2;              // radius
+    const CIRC = 2 * Math.PI * R;                  // circumference
+    const offset = CIRC * (1 - progress / 100);
 
     useEffect(() => {
         // Set your target date here
@@ -96,11 +114,11 @@ const Home = () => {
                         </StyledView>
 
                         {/* Countdown Section */}
-                        <StyledText className="text-[#89898A] text-xl font-semibold mb-10 text-center">
+                        <StyledText className="text-[#89898A] text-xl font-semibold mb-4 text-center">
                             Your Next Milestone
                         </StyledText>
                         <StyledView className="flex-row justify-center items-center gap-2 mb-8">
-                            <StyledTouchableOpacity 
+                            <StyledTouchableOpacity
                                 className="items-center"
                                 onPress={() => navigation.navigate('LineGraph')}
                             >
@@ -112,7 +130,7 @@ const Home = () => {
                             <StyledView className="h-[64px] justify-center">
                                 <StyledText className="text-white text-4xl font-bold">:</StyledText>
                             </StyledView>
-                            <StyledTouchableOpacity 
+                            <StyledTouchableOpacity
                                 className="items-center"
                                 onPress={() => navigation.navigate('LineGraph')}
                             >
@@ -124,7 +142,7 @@ const Home = () => {
                             <StyledView className="h-[64px] justify-center">
                                 <StyledText className="text-white text-4xl font-bold">:</StyledText>
                             </StyledView>
-                            <StyledTouchableOpacity 
+                            <StyledTouchableOpacity
                                 className="items-center"
                                 onPress={() => navigation.navigate('LineGraph')}
                             >
@@ -135,12 +153,103 @@ const Home = () => {
                             </StyledTouchableOpacity>
                         </StyledView>
 
+                        {/* Readiness Score Section */}
+                        <StyledView className="bg-white rounded-lg p-4 mb-3">
+                            <StyledText className="text-[#2D2D2E] text-lg font-semibold mb-2">Your Readiness: </StyledText>
+                            <StyledView className="flex-row items-center justify-between">
+                                <StyledView className="items-center">
+                                    <StyledView className="relative" style={{ width: SIZE, height: SIZE }}>
+                                        {/* background track */}
+                                        <Svg width={SIZE} height={SIZE}>
+                                            <Circle
+                                                cx={SIZE / 2} cy={SIZE / 2} r={R}
+                                                stroke="#E5E5E5"
+                                                strokeWidth={STROKE}
+                                                fill="none"
+                                            />
+                                            {/* progress stroke */}
+                                            <Circle
+                                                cx={SIZE / 2} cy={SIZE / 2} r={R}
+                                                stroke="#58C5C7"
+                                                strokeWidth={STROKE}
+                                                fill="none"
+                                                strokeDasharray={`${CIRC} ${CIRC}`}
+                                                strokeDashoffset={offset}
+                                                strokeLinecap="round"
+                                                transform={`rotate(-90 ${SIZE / 2} ${SIZE / 2})`}
+                                            />
+                                        </Svg>
+
+                                        {/* center score */}
+                                        <StyledView className="absolute top-0 left-0 right-0 bottom-0 items-center justify-center">
+                                            <StyledText className="text-[#58C5C7] text-2xl font-bold">
+                                                {calculateReadinessScore()}
+                                                <StyledText className="text-[#89898A] text-base">/10</StyledText>
+                                            </StyledText>
+                                        </StyledView>
+                                    </StyledView>
+
+                                    <StyledText className="text-[#89898A] text-sm mt-3">
+                                        Perfromance average
+                                    </StyledText>
+                                </StyledView>
+
+                                {/* Check-in Button */}
+                                <StyledTouchableOpacity
+                                    className="h-[50px] w-[100px] rounded-full overflow-hidden"
+                                    onPress={() => navigation.navigate('baselineQuestionnaire')}
+                                >
+                                    <LinearGradient
+                                        colors={['#58C5C7', '#5996C8']}
+                                        start={{ x: 0, y: 0 }}
+                                        end={{ x: 1, y: 0 }}
+                                        className="flex-1 justify-center items-center"
+                                    >
+                                        <StyledText className="text-white text-base font-semibold">
+                                            Check-in
+                                        </StyledText>
+                                    </LinearGradient>
+                                </StyledTouchableOpacity>
+                            </StyledView>
+                        </StyledView>
+
+                        {/* Focus Level Message */}
+                        <StyledView className="rounded-lg mb-3 overflow-hidden">
+                            <LinearGradient
+                                colors={['#58C5C7', '#5996C8']}
+                                start={{ x: 0, y: 0 }}
+                                end={{ x: 1, y: 0 }}
+                                className="p-6 rounded-lg"
+                            >
+                                <StyledText className="text-white text-lg font-semibold mb-2">Today's Insights: </StyledText>
+                                <StyledText className="text-white text-sm">
+                                    Your focus level recently dipped to a 4 - Try eliminating distractions during your practice and isolating practice by specific skills. Review your game-day journal
+                                </StyledText>
+                            </LinearGradient>
+                        </StyledView>
+                        
+
                         {/* Baseline Results Section */}
                         <StyledText className="text-white text-xl font-semibold mb-4">
                             Performance Trends
                         </StyledText>
+
+                        <StyledView className="bg-[#3D3D3E] rounded-lg p-4 mb-3">
+                            <StyledText className="text-white text-lg font-semibold mb-4">Practice Time Distribution</StyledText>
+                            <StyledView className="h-6 bg-[#F6FF6B] rounded-full overflow-hidden">
+                                <StyledView 
+                                    className="h-full bg-[#58C5C7] rounded-full"
+                                    style={{ width: '70%' }}
+                                />
+                            </StyledView>
+                            <StyledView className="flex-row justify-between mt-2">
+                                <StyledText className="text-white text-sm">Physical: 70%</StyledText>
+                                <StyledText className="text-white text-sm">Mental: 30%</StyledText>
+                            </StyledView>
+                        </StyledView>
+
                         <StyledView className="space-y-3">
-                            <StyledTouchableOpacity 
+                            <StyledTouchableOpacity
                                 onPress={() => navigation.navigate('LineGraph', { trend: 'Focus' })}
                                 className="bg-[#3D3D3E] rounded-lg p-4"
                             >
@@ -153,7 +262,7 @@ const Home = () => {
                                 </StyledView>
                             </StyledTouchableOpacity>
 
-                            <StyledTouchableOpacity 
+                            <StyledTouchableOpacity
                                 onPress={() => navigation.navigate('LineGraph', { trend: 'Performance Anxiety' })}
                                 className="bg-[#3D3D3E] rounded-lg p-4"
                             >
@@ -166,7 +275,7 @@ const Home = () => {
                                 </StyledView>
                             </StyledTouchableOpacity>
 
-                            <StyledTouchableOpacity 
+                            <StyledTouchableOpacity
                                 onPress={() => navigation.navigate('LineGraph', { trend: 'Enjoyment' })}
                                 className="bg-[#3D3D3E] rounded-lg p-4"
                             >
@@ -179,7 +288,7 @@ const Home = () => {
                                 </StyledView>
                             </StyledTouchableOpacity>
 
-                            <StyledTouchableOpacity 
+                            <StyledTouchableOpacity
                                 onPress={() => navigation.navigate('LineGraph', { trend: 'Burnout' })}
                                 className="bg-[#3D3D3E] rounded-lg p-4"
                             >
@@ -192,7 +301,7 @@ const Home = () => {
                                 </StyledView>
                             </StyledTouchableOpacity>
 
-                            <StyledTouchableOpacity 
+                            <StyledTouchableOpacity
                                 onPress={() => navigation.navigate('LineGraph', { trend: 'Confidence' })}
                                 className="bg-[#3D3D3E] rounded-lg p-4"
                             >
@@ -201,11 +310,10 @@ const Home = () => {
                                         <Image source={Confidence} className="w-6 h-6 mr-3" />
                                         <StyledText className="text-white text-xl font-semibold">Confidence</StyledText>
                                     </StyledView>
-                                    <StyledText className="text-white text-2xl font-bold">7</StyledText>
+                                    <StyledText className="text-white text-2xl font-bold">8</StyledText>
                                 </StyledView>
                             </StyledTouchableOpacity>
                         </StyledView>
-
                     </StyledView>
                 </ScrollView>
             </KeyboardAvoidingView>

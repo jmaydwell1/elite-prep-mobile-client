@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "elite-prep-mobile-client-new",
+    "name": "Elite Prep",
     "slug": "elite-prep-mobile-client-new",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -16,8 +16,7 @@
         "expo-notifications",
         {
           "icon": "./assets/notification-icon.png",
-          "color": "#ffffff",
-          "sounds": ["./assets/notification-sound.wav"]
+          "color": "#ffffff"
         }
       ]
     ],
@@ -25,16 +24,39 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.elite-prep.app",
+      "buildNumber": "1.0.0",
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "Allow Elite Prep to access your photos.",
+        "NSCameraUsageDescription": "Allow Elite Prep to access your camera.",
+        "NSMicrophoneUsageDescription": "Allow Elite Prep to access your microphone.",
+        "UIBackgroundModes": ["remote-notification"],
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLSchemes": ["com.elite-prep.app"]
+          }
+        ]
+      },
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.elite-prep.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6cea3a74-0df9-4058-9f11-5ff0b03a5387"
+      }
+    },
+    "owner": "jmaydwell1"
   }
 }
