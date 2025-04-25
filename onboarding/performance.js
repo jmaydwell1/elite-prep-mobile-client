@@ -528,7 +528,7 @@ const Performance = ({ navigation }) => {
                     <Ionicons name="stats-chart" size={24} color="#FFFFFF" />
                     <StyledText className="text-white mt-1">Performance</StyledText>
                 </StyledTouchableOpacity>
-                <StyledTouchableOpacity className="items-center">
+                <StyledTouchableOpacity className="items-center" onPress={() => navigation.navigate('Journal')}>
                     <Ionicons name="journal" size={24} color="#89898A" />
                     <StyledText className="text-[#89898A] mt-1">Journaling</StyledText>
                 </StyledTouchableOpacity>

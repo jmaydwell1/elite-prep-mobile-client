@@ -28,7 +28,7 @@ const RoundReflection = ({ navigation, route }) => {
     };
 
     const handleNext = () => {
-        navigation.navigate('PhysicalPractice', {
+        navigation.navigate('SessionFeedback', {
             ...route.params,
             roundReflection: {
                 selectedOptions,

@@ -11,6 +11,7 @@ import {
     ScrollView,
     Keyboard,
     Modal,
+    Alert,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { styled } from 'nativewind';
@@ -18,6 +19,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import ProgressIcon5 from '../assets/progress_icon5.png';
+import { useOnboarding } from '../context/OnboardingContext';
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
@@ -31,7 +33,9 @@ const AthleticStatus = () => {
     const [showAthleticStatusPicker, setShowAthleticStatusPicker] = useState(false);
     const [handicap, setHandicap] = useState('');
     const [showHandicapPicker, setShowHandicapPicker] = useState(false);
+    const [errors, setErrors] = useState({});
     const navigation = useNavigation();
+    const { updateOnboardingData } = useOnboarding();
 
     const handleAthleticStatusSelect = (selectedAthleticStatus) => {
         setAthleticStatus(selectedAthleticStatus);
@@ -43,17 +47,27 @@ const AthleticStatus = () => {
         setShowHandicapPicker(false);
     };
 
-    const formatDate = (date) => {
-        return date.toLocaleDateString('en-US', {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric'
-        });
+    const validateForm = () => {
+        const newErrors = {};
+        if (!athleticStatus) {
+            newErrors.athleticStatus = 'Please select your athletic status';
+        }
+        if (!handicap) {
+            newErrors.handicap = 'Please select your handicap';
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleNext = () => {
-        // TODO: Implement login logic
-        console.log('Next pressed:', { athleticStatus, handicap });
+        if (!validateForm()) return;
+
+        // Update onboarding context with athletic status and handicap
+        updateOnboardingData({
+            athletic_status: athleticStatus,
+            handicap: parseInt(handicap, 10) // Convert to integer for API
+        });
+
         Keyboard.dismiss();
         navigation.navigate('GoalSetting');
     };
@@ -103,6 +117,9 @@ const AthleticStatus = () => {
                                         {athleticStatus || "Select Athletic Status"}
                                     </StyledText>
                                 </StyledTouchableOpacity>
+                                {errors.athleticStatus && (
+                                    <StyledText className="text-red-500 text-sm mt-1">{errors.athleticStatus}</StyledText>
+                                )}
                             </StyledView>
 
                             <Modal
@@ -118,12 +135,13 @@ const AthleticStatus = () => {
                                 >
                                     <StyledView className="w-[90%] bg-[#2D2D2E] rounded-lg p-4">
                                         <StyledText className="text-white text-lg mb-4">Select Athletic Status</StyledText>
-                                        {athleticStatusOptions.map((athleticStatus, index) => (
+                                        {athleticStatusOptions.map((status, index) => (
                                             <StyledTouchableOpacity
-                                                onPress={() => handleAthleticStatusSelect(athleticStatus)}
+                                                key={index}
+                                                onPress={() => handleAthleticStatusSelect(status)}
                                                 className="py-4 border-b border-[#3D3D3E]"
                                             >
-                                                <StyledText className="text-white text-base">{athleticStatus}</StyledText>
+                                                <StyledText className="text-white text-base">{status}</StyledText>
                                             </StyledTouchableOpacity>
                                         ))}
                                     </StyledView>
@@ -142,6 +160,9 @@ const AthleticStatus = () => {
                                         {handicap || "Select Handicap"}
                                     </StyledText>
                                 </StyledTouchableOpacity>
+                                {errors.handicap && (
+                                    <StyledText className="text-red-500 text-sm mt-1">{errors.handicap}</StyledText>
+                                )}
                             </StyledView>
 
                             <Modal

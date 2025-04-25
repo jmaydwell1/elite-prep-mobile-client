@@ -56,7 +56,7 @@ const PuttingReflection = ({ navigation, route }) => {
                 });
             } else {
                 // No more shot types, navigate to PhysicalPractice
-                navigation.navigate('PhysicalPractice', {
+                navigation.navigate('SessionFeedback', {
                     ...route.params,
                     puttingReflection: {
                         selectedOptions,

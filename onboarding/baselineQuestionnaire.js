@@ -8,6 +8,7 @@ import {
     Platform,
     Image,
     ScrollView,
+    Alert,
 } from 'react-native';
 import Slider from '@react-native-community/slider';
 import { useNavigation } from '@react-navigation/native';
@@ -15,6 +16,8 @@ import { styled } from 'nativewind';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import ProgressIcon6 from '../assets/progress_icon6.png';
+import { userService } from '../api';
+import { useOnboarding } from '../context/OnboardingContext';
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
@@ -29,12 +32,76 @@ const BaselineQuestionnaire = () => {
     const [questionSix, setQuestionSix] = useState(5);
     const [questionSeven, setQuestionSeven] = useState(5);
     const [questionEight, setQuestionEight] = useState(5);
+    const [isLoading, setIsLoading] = useState(false);
     
     const navigation = useNavigation();
+    const { onboardingData } = useOnboarding();
 
-    const handleNext = () => {
-        console.log('Next pressed:', { questionOne, questionTwo, questionThree, questionFour, questionFive, questionSix, questionSeven, questionEight });
-        navigation.navigate('Home');
+    const handleNext = async () => {
+        if (!onboardingData.email) {
+            Alert.alert('Error', 'Please complete the registration process first.');
+            return;
+        }
+
+        setIsLoading(true);
+
+        try {
+            // Prepare performance trend data matching the FastAPI schema
+            const performanceData = {
+                email: onboardingData.email,
+                focus: Math.round(questionTwo),
+                confidence: Math.round(questionOne),
+                anxiety: Math.round(questionThree),
+                enjoyment: Math.round(questionFour),
+                burnout: Math.round(questionFive),
+                effort: Math.round(questionSix),
+                motivation: Math.round(questionSeven)
+                // timestamp will be added by the server
+            };
+
+            // Debug log
+            console.log('Sending performance data:', JSON.stringify(performanceData, null, 2));
+
+            // Call the API to store performance trend data
+            const response = await userService.addPerformanceTrend(performanceData);
+
+            // Debug log
+            console.log('API Response:', response.data);
+
+            // Success
+            Alert.alert(
+                'Success',
+                'Your baseline assessment has been saved!',
+                [
+                    {
+                        text: 'OK',
+                        onPress: () => navigation.navigate('Home')
+                    }
+                ]
+            );
+        } catch (error) {
+            console.error('Performance Trend API Error:', error);
+            console.error('Error details:', {
+                status: error.response?.status,
+                data: error.response?.data,
+                headers: error.response?.headers
+            });
+
+            // More specific error message
+            let errorMessage = 'Failed to save your assessment. Please try again.';
+            if (error.response?.status === 500) {
+                errorMessage = 'Server error. Please try again later.';
+            } else if (error.response?.data?.detail) {
+                errorMessage = error.response.data.detail;
+            }
+
+            Alert.alert(
+                'Error',
+                errorMessage
+            );
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -263,6 +330,7 @@ const BaselineQuestionnaire = () => {
                             <StyledTouchableOpacity
                                 className="h-[50px] rounded-full overflow-hidden mb-5"
                                 onPress={handleNext}
+                                disabled={isLoading}
                             >
                                 <LinearGradient
                                     colors={['#58C5C7', '#5996C8']}
@@ -271,7 +339,7 @@ const BaselineQuestionnaire = () => {
                                     className="flex-1 justify-center items-center"
                                 >
                                     <StyledText className="text-white text-base font-semibold">
-                                        Finish
+                                        {isLoading ? 'Saving...' : 'Next'}
                                     </StyledText>
                                 </LinearGradient>
                             </StyledTouchableOpacity>

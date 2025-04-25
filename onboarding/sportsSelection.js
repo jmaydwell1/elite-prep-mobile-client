@@ -11,6 +11,7 @@ import {
     ScrollView,
     Keyboard,
     Modal,
+    Alert,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { styled } from 'nativewind';
@@ -23,6 +24,7 @@ import BasketballIcon from '../assets/Basketball.png';
 import TennisIcon from '../assets/Tennis.png';
 import SwimmingIcon from '../assets/Swimming.png';
 import RunningIcon from '../assets/Running.png';
+import { useOnboarding } from '../context/OnboardingContext';
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
@@ -32,10 +34,26 @@ const StyledTouchableOpacity = styled(TouchableOpacity);
 const SportsSelection = () => {
     const navigation = useNavigation();
     const [sport, setSport] = useState('');
+    const [errors, setErrors] = useState({});
+    const { updateOnboardingData } = useOnboarding();
+
+    const validateForm = () => {
+        const newErrors = {};
+        if (!sport) {
+            newErrors.sport = 'Please select a sport';
+        }
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const handleNext = () => {
-        // TODO: Implement login logic
-        console.log('Next pressed:', { sport });
+        if (!validateForm()) return;
+
+        // Update onboarding context with selected sport
+        updateOnboardingData({
+            sport: [sport] // Store as array since the API expects List[str]
+        });
+
         Keyboard.dismiss();
         navigation.navigate('Notifications');
     };
@@ -73,6 +91,9 @@ const SportsSelection = () => {
                         </StyledView>
 
                         <StyledView className="w-full">
+                            {errors.sport && (
+                                <StyledText className="text-red-500 text-sm mb-2">{errors.sport}</StyledText>
+                            )}
 
                             <StyledTouchableOpacity 
                                 className={`h-[90px] rounded-lg ${sport === 'Golf' ? 'bg-[#58C5C7]' : 'bg-[#3C4245]'} mb-2`}
@@ -93,66 +114,89 @@ const SportsSelection = () => {
                                             <Ionicons name="checkmark-circle" size={24} color="#FFFFFF" />
                                         )}
                                     </StyledView>
-                                    
                                 </StyledView>
                             </StyledTouchableOpacity>
 
-                            <StyledTouchableOpacity className="h-[90px] rounded-lg bg-[#3C4245] mb-2">
+                            <StyledTouchableOpacity 
+                                className={`h-[90px] rounded-lg ${sport === 'Running' ? 'bg-[#58C5C7]' : 'bg-[#3C4245]'} mb-2`}
+                                onPress={() => setSport('Running')}
+                            >
                                 <StyledView className="flex-1 flex-row items-center">
                                     <Image 
                                         source={RunningIcon} 
                                         className="w-16 h-16 ml-6"
                                         resizeMode="contain"
                                     />
-                                    <StyledView className="flex-1 px-16">
+                                    <StyledView className="flex-1 flex-row items-center justify-between px-16">
                                         <StyledText className="text-white text-2xl font-normal">
                                             Running
                                         </StyledText>
+                                        {sport === 'Running' && (
+                                            <Ionicons name="checkmark-circle" size={24} color="#FFFFFF" />
+                                        )}
                                     </StyledView>
                                 </StyledView>
                             </StyledTouchableOpacity>
 
-                            <StyledTouchableOpacity className="h-[90px] rounded-lg bg-[#3C4245] mb-2">
+                            <StyledTouchableOpacity 
+                                className={`h-[90px] rounded-lg ${sport === 'Basketball' ? 'bg-[#58C5C7]' : 'bg-[#3C4245]'} mb-2`}
+                                onPress={() => setSport('Basketball')}
+                            >
                                 <StyledView className="flex-1 flex-row items-center">
                                     <Image 
                                         source={BasketballIcon} 
                                         className="w-16 h-16 ml-6"
                                         resizeMode="contain"
                                     />
-                                    <StyledView className="flex-1 px-16">
+                                    <StyledView className="flex-1 flex-row items-center justify-between px-16">
                                         <StyledText className="text-white text-2xl font-normal">
                                             Basketball
                                         </StyledText>
+                                        {sport === 'Basketball' && (
+                                            <Ionicons name="checkmark-circle" size={24} color="#FFFFFF" />
+                                        )}
                                     </StyledView>
                                 </StyledView>
                             </StyledTouchableOpacity>
 
-                            <StyledTouchableOpacity className="h-[90px] rounded-lg bg-[#3C4245] mb-2">
+                            <StyledTouchableOpacity 
+                                className={`h-[90px] rounded-lg ${sport === 'Tennis' ? 'bg-[#58C5C7]' : 'bg-[#3C4245]'} mb-2`}
+                                onPress={() => setSport('Tennis')}
+                            >
                                 <StyledView className="flex-1 flex-row items-center">
                                     <Image 
                                         source={TennisIcon} 
                                         className="w-16 h-16 ml-6"
                                         resizeMode="contain"
                                     />
-                                    <StyledView className="flex-1 px-16">
+                                    <StyledView className="flex-1 flex-row items-center justify-between px-16">
                                         <StyledText className="text-white text-2xl font-normal">
                                             Tennis
                                         </StyledText>
+                                        {sport === 'Tennis' && (
+                                            <Ionicons name="checkmark-circle" size={24} color="#FFFFFF" />
+                                        )}
                                     </StyledView>
                                 </StyledView>
                             </StyledTouchableOpacity>
 
-                            <StyledTouchableOpacity className="h-[90px] rounded-lg bg-[#3C4245] mb-5">
+                            <StyledTouchableOpacity 
+                                className={`h-[90px] rounded-lg ${sport === 'Swimming' ? 'bg-[#58C5C7]' : 'bg-[#3C4245]'} mb-5`}
+                                onPress={() => setSport('Swimming')}
+                            >
                                 <StyledView className="flex-1 flex-row items-center">
                                     <Image 
                                         source={SwimmingIcon} 
                                         className="w-16 h-16 ml-6"
                                         resizeMode="contain"
                                     />
-                                    <StyledView className="flex-1 px-16">
+                                    <StyledView className="flex-1 flex-row items-center justify-between px-16">
                                         <StyledText className="text-white text-2xl font-normal">
                                             Swimming
                                         </StyledText>
+                                        {sport === 'Swimming' && (
+                                            <Ionicons name="checkmark-circle" size={24} color="#FFFFFF" />
+                                        )}
                                     </StyledView>
                                 </StyledView>
                             </StyledTouchableOpacity>

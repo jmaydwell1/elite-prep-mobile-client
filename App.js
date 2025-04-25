@@ -1,3 +1,4 @@
+import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -27,49 +28,60 @@ import TeeShotsReflection from './onboarding/TeeShotsReflection';
 import ApproachShotsReflection from './onboarding/ApproachShotsReflection';
 import PuttingReflection from './onboarding/PuttingReflection';
 import RoundReflection from './onboarding/RoundReflection';
+import SessionFeedback from './onboarding/SessionFeedback';
+import Takeaway from './onboarding/Takeaway';
+import Journal from './onboarding/Journal';
+import PerformanceAnxiety from './onboarding/PerformanceAnxiety';
+import { OnboardingProvider } from './context/OnboardingContext';
 
 const StyledView = styled(View);
 const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <SafeAreaProvider>
-      <StyledView className="flex-1 bg-[#1C1C1D]">
-        <NavigationContainer>
-          <Stack.Navigator
-            initialRouteName="InitialScreen"
-            screenOptions={{
-              headerShown: false,
-            }}
-          >
-            <Stack.Screen name="InitialScreen" component={InitialScreen} />
-            {/* Add other screens here */}
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="Create" component={Create} />
-            <Stack.Screen name="UserProfile" component={UserProfile} />
-            <Stack.Screen name="SportsSelection" component={SportsSelection} />
-            <Stack.Screen name="Notifications" component={Notifications} />
-            <Stack.Screen name="TournamentDetails" component={TournamentDetails} />
-            <Stack.Screen name="AthleticStatus" component={AthleticStatus} />
-            <Stack.Screen name="GoalSetting" component={GoalSetting} />
-            <Stack.Screen name="BaselineReminder" component={BaselineReminder} />
-            <Stack.Screen name="BaselineQuestionnaire" component={BaselineQuestionnaire} />
-            <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="LineGraph" component={LineGraph} />
-            <Stack.Screen name="Performance" component={Performance} />
-            <Stack.Screen name="StartPractice" component={StartPractice} />
-            <Stack.Screen name="PhysicalPractice" component={PhysicalPractice} />
-            <Stack.Screen name="Settings" component={Settings} />
-            <Stack.Screen name="PracticeType" component={PracticeType} />
-            <Stack.Screen name="SkillsPractice" component={SkillsPractice} />
-            <Stack.Screen name="ShortGameReflection" component={ShortGameReflection} />
-            <Stack.Screen name="TeeShotsReflection" component={TeeShotsReflection} />
-            <Stack.Screen name="ApproachShotsReflection" component={ApproachShotsReflection} />
-            <Stack.Screen name="PuttingReflection" component={PuttingReflection} />
-            <Stack.Screen name="RoundReflection" component={RoundReflection} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </StyledView>
-    </SafeAreaProvider>
+    <OnboardingProvider>
+      <SafeAreaProvider>
+        <StyledView className="flex-1 bg-[#1C1C1D]">
+          <NavigationContainer>
+            <Stack.Navigator
+              initialRouteName="InitialScreen"
+              screenOptions={{
+                headerShown: false,
+              }}
+            >
+              <Stack.Screen name="InitialScreen" component={InitialScreen} />
+              {/* Add other screens here */}
+              <Stack.Screen name="Login" component={Login} />
+              <Stack.Screen name="Create" component={Create} />
+              <Stack.Screen name="UserProfile" component={UserProfile} />
+              <Stack.Screen name="SportsSelection" component={SportsSelection} />
+              <Stack.Screen name="Notifications" component={Notifications} />
+              <Stack.Screen name="TournamentDetails" component={TournamentDetails} />
+              <Stack.Screen name="AthleticStatus" component={AthleticStatus} />
+              <Stack.Screen name="GoalSetting" component={GoalSetting} />
+              <Stack.Screen name="BaselineReminder" component={BaselineReminder} />
+              <Stack.Screen name="BaselineQuestionnaire" component={BaselineQuestionnaire} />
+              <Stack.Screen name="Home" component={Home} />
+              <Stack.Screen name="LineGraph" component={LineGraph} />
+              <Stack.Screen name="Performance" component={Performance} />
+              <Stack.Screen name="Journal" component={Journal} />
+              <Stack.Screen name="StartPractice" component={StartPractice} />
+              <Stack.Screen name="PhysicalPractice" component={PhysicalPractice} />
+              <Stack.Screen name="Settings" component={Settings} />
+              <Stack.Screen name="PracticeType" component={PracticeType} />
+              <Stack.Screen name="SkillsPractice" component={SkillsPractice} />
+              <Stack.Screen name="ShortGameReflection" component={ShortGameReflection} />
+              <Stack.Screen name="TeeShotsReflection" component={TeeShotsReflection} />
+              <Stack.Screen name="ApproachShotsReflection" component={ApproachShotsReflection} />
+              <Stack.Screen name="PuttingReflection" component={PuttingReflection} />
+              <Stack.Screen name="RoundReflection" component={RoundReflection} />
+              <Stack.Screen name="SessionFeedback" component={SessionFeedback} />
+              <Stack.Screen name="Takeaway" component={Takeaway} />
+              <Stack.Screen name="PerformanceAnxiety" component={PerformanceAnxiety} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </StyledView>
+      </SafeAreaProvider>
+    </OnboardingProvider>
   );
 }

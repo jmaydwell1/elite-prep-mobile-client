@@ -10,10 +10,12 @@ import {
   Image,
   ScrollView,
   Keyboard,
+  Alert,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { styled } from 'nativewind';
 import { LinearGradient } from 'expo-linear-gradient';
+import { userService } from '../api';
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
@@ -23,12 +25,60 @@ const StyledTouchableOpacity = styled(TouchableOpacity);
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState({});
   const navigation = useNavigation();
 
-  const handleLogin = () => {
-    // TODO: Implement login logic
-    console.log('Login pressed:', { email, password });
+  const validateForm = () => {
+    const newErrors = {};
+    
+    // Email validation
+    if (!email) {
+      newErrors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = 'Email is invalid';
+    }
+
+    // Password validation
+    if (!password) {
+      newErrors.password = 'Password is required';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleLogin = async () => {
+    if (!validateForm()) return;
+
+    setIsLoading(true);
     Keyboard.dismiss();
+
+    try {
+      const response = await userService.login({
+        email,
+        password
+      });
+
+      // Store the token if needed
+      // await AsyncStorage.setItem('token', response.data.token);
+
+      // Login successful
+      Alert.alert(
+        'Success',
+        'Login successful!',
+        [
+          {
+            text: 'OK',
+            onPress: () => navigation.navigate('Home')
+          }
+        ]
+      );
+    } catch (error) {
+      Alert.alert('Error', error.response?.data?.detail || 'Login failed. Please check your credentials.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -64,6 +114,9 @@ const LoginScreen = () => {
                   keyboardType="email-address"
                   autoCapitalize="none"
                 />
+                {errors.email && (
+                  <StyledText className="text-red-500 text-sm mt-1">{errors.email}</StyledText>
+                )}
               </StyledView>
 
               <StyledView className="mb-5">
@@ -78,6 +131,9 @@ const LoginScreen = () => {
                   onChangeText={setPassword}
                   secureTextEntry
                 />
+                {errors.password && (
+                  <StyledText className="text-red-500 text-sm mt-1">{errors.password}</StyledText>
+                )}
               </StyledView>
 
               <StyledTouchableOpacity
@@ -92,6 +148,7 @@ const LoginScreen = () => {
               <StyledTouchableOpacity
                 className="h-[50px] rounded-full overflow-hidden mb-5"
                 onPress={handleLogin}
+                disabled={isLoading}
               >
                 <LinearGradient
                   colors={['#58C5C7', '#5996C8']}
@@ -100,7 +157,7 @@ const LoginScreen = () => {
                   className="flex-1 justify-center items-center"
                 >
                   <StyledText className="text-white text-base font-semibold">
-                    Login
+                    {isLoading ? 'Logging in...' : 'Login'}
                   </StyledText>
                 </LinearGradient>
               </StyledTouchableOpacity>

@@ -11,6 +11,7 @@ import {
   ScrollView,
   Keyboard,
   Modal,
+  Alert,
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { styled } from 'nativewind';
@@ -18,6 +19,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import ProgressIcon2 from '../assets/progress_icon2.png';
+import { useOnboarding } from '../context/OnboardingContext';
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
@@ -47,7 +49,9 @@ const UserProfile = () => {
     const [state, setState] = useState('');
     const [showStatePicker, setShowStatePicker] = useState(false);
     const [city, setCity] = useState('');
+    const [errors, setErrors] = useState({});
     const navigation = useNavigation();
+    const { updateOnboardingData } = useOnboarding();
 
     const handleDateChange = (event, selectedDate) => {
         if (selectedDate) {
@@ -83,9 +87,38 @@ const UserProfile = () => {
         });
     };
 
+    const validateForm = () => {
+        const newErrors = {};
+        
+        if (!name.trim()) {
+            newErrors.name = 'Name is required';
+        }
+        if (!gender) {
+            newErrors.gender = 'Gender is required';
+        }
+        if (!state) {
+            newErrors.state = 'State is required';
+        }
+        if (!city.trim()) {
+            newErrors.city = 'City is required';
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
     const handleNext = () => {
-        // TODO: Implement login logic
-        console.log('Next pressed:', { name, birthdate, gender, state, city });
+        if (!validateForm()) return;
+
+        // Update onboarding context with user profile data
+        updateOnboardingData({
+            name,
+            birthdate: birthdate.toISOString(),
+            gender,
+            state,
+            city
+        });
+
         Keyboard.dismiss();
         navigation.navigate('SportsSelection');
     };
@@ -135,6 +168,9 @@ const UserProfile = () => {
                                     onChangeText={setName}
                                     autoCapitalize="words"
                                 />
+                                {errors.name && (
+                                    <StyledText className="text-red-500 text-sm mt-1">{errors.name}</StyledText>
+                                )}
                             </StyledView>
 
                             <StyledView className="mb-2">
