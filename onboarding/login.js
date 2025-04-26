@@ -16,6 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 import { styled } from 'nativewind';
 import { LinearGradient } from 'expo-linear-gradient';
 import { userService } from '../api';
+import { useOnboarding } from '../context/OnboardingContext';
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
@@ -28,6 +29,7 @@ const LoginScreen = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState({});
   const navigation = useNavigation();
+  const { updateOnboardingData } = useOnboarding();
 
   const validateForm = () => {
     const newErrors = {};
@@ -60,8 +62,10 @@ const LoginScreen = () => {
         password
       });
 
-      // Store the token if needed
-      // await AsyncStorage.setItem('token', response.data.token);
+      // Store email in onboarding context
+      updateOnboardingData({
+        email: email
+      });
 
       // Login successful
       Alert.alert(

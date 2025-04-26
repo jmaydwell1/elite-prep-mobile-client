@@ -8,7 +8,8 @@ import {
     Image,
     KeyboardAvoidingView,
     Platform,
-    Dimensions
+    Dimensions,
+    Alert
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { styled } from 'nativewind';
@@ -22,6 +23,8 @@ import Stress from '../assets/stress.png';
 import Confidence from '../assets/confidence.png';
 import FloatingActionButton from '../components/FloatingActionButton';
 import { Svg, Circle } from 'react-native-svg';
+import { userService } from '../api';
+import { useOnboarding } from '../context/OnboardingContext';
 
 const StyledView = styled(View);
 const StyledText = styled(Text);
@@ -38,27 +41,80 @@ const Home = () => {
         minutes: 0,
         seconds: 0
     });
+    const [performanceAverages, setPerformanceAverages] = useState(null);
+    const { onboardingData } = useOnboarding();
 
-    // Mock data for baseline questionnaire results
-    const baselineResults = {
-        confidence: 7,
-        focus: 8,
-        anxiety: 3,
-        enjoyment: 9,
-        burnout: 2,
-        effort: 8,
-        motivation: 9,
-        readiness: 7
-    };
+    useEffect(() => {
+        const fetchPerformanceAverages = async () => {
+            if (!onboardingData.email) {
+                console.log('No email found in onboardingData:', onboardingData);
+                return;
+            }
+            
+            console.log('Fetching performance averages for email:', onboardingData.email);
+            try {
+                const response = await userService.getPerformanceAverages(onboardingData.email);
+                console.log('API Response:', response);
+                console.log('Response data:', response.data);
+                setPerformanceAverages(response.data);
+            } catch (error) {
+                console.error('Error fetching performance averages:', error);
+                console.error('Error details:', {
+                    status: error.response?.status,
+                    data: error.response?.data,
+                    headers: error.response?.headers
+                });
+                
+                // Handle specific error cases
+                if (error.response?.status === 404) {
+                    if (error.response?.data?.detail === "User not found") {
+                        Alert.alert(
+                            'Error',
+                            'User account not found. Please complete the registration process.',
+                            [
+                                {
+                                    text: 'OK',
+                                    onPress: () => navigation.navigate('Create')
+                                }
+                            ]
+                        );
+                    } else if (error.response?.data?.detail === "No performance data available") {
+                        Alert.alert(
+                            'No Data',
+                            'No performance data available yet. Complete your first check-in to see your performance trends.',
+                            [
+                                {
+                                    text: 'OK',
+                                    onPress: () => navigation.navigate('baselineQuestionnaire')
+                                }
+                            ]
+                        );
+                    }
+                } else {
+                    Alert.alert('Error', 'Failed to load performance data. Please try again later.');
+                }
+            }
+        };
 
-    // Calculate average readiness score
+        fetchPerformanceAverages();
+    }, [onboardingData.email]);
+
+    // Calculate average readiness score from performance averages
     const calculateReadinessScore = () => {
-        const values = Object.values(baselineResults);
-        const sum = values.reduce((acc, val) => acc + val, 0);
-        return Math.round(sum / values.length);
+        if (!performanceAverages) return 0;
+        
+        // Get individual performance metrics
+        const focus = performanceAverages.focus || 0;
+        const confidence = performanceAverages.confidence || 0;
+        const anxiety = performanceAverages.anxiety || 0;
+        const enjoyment = performanceAverages.enjoyment || 0;
+        const burnout = performanceAverages.burnout || 0;
+        const effort = performanceAverages.effort || 0;
+        const motivation = performanceAverages.motivation || 0;
+
     };
 
-    const progress = (calculateReadinessScore() / 10) * 100;
+    const progress = (performanceAverages.total_average / 10) * 100;
 
     const R = (SIZE - STROKE) / 2;              // radius
     const CIRC = 2 * Math.PI * R;                  // circumference
@@ -183,7 +239,7 @@ const Home = () => {
                                         {/* center score */}
                                         <StyledView className="absolute top-0 left-0 right-0 bottom-0 items-center justify-center">
                                             <StyledText className="text-[#58C5C7] text-2xl font-bold">
-                                                {calculateReadinessScore()}
+                                                {Math.round(performanceAverages.total_average)}
                                                 <StyledText className="text-[#89898A] text-base">/10</StyledText>
                                             </StyledText>
                                         </StyledView>
@@ -239,12 +295,12 @@ const Home = () => {
                             <StyledView className="h-6 bg-[#F6FF6B] rounded-full overflow-hidden">
                                 <StyledView 
                                     className="h-full bg-[#58C5C7] rounded-full"
-                                    style={{ width: '70%' }}
+                                    style={{ width: '50%' }}
                                 />
                             </StyledView>
                             <StyledView className="flex-row justify-between mt-2">
-                                <StyledText className="text-white text-sm">Physical: 70%</StyledText>
-                                <StyledText className="text-white text-sm">Mental: 30%</StyledText>
+                                <StyledText className="text-white text-sm">Physical: 50%</StyledText>
+                                <StyledText className="text-white text-sm">Mental: 50%</StyledText>
                             </StyledView>
                         </StyledView>
 
@@ -258,7 +314,7 @@ const Home = () => {
                                         <Image source={Focus} className="w-6 h-6 mr-3" />
                                         <StyledText className="text-white text-xl font-semibold">Focus</StyledText>
                                     </StyledView>
-                                    <StyledText className="text-white text-2xl font-bold">7</StyledText>
+                                    <StyledText className="text-white text-2xl font-bold">{Math.round(performanceAverages.average_focus)}</StyledText>
                                 </StyledView>
                             </StyledTouchableOpacity>
 
@@ -271,7 +327,7 @@ const Home = () => {
                                         <Image source={PerformanceAnxiety} className="w-6 h-6 mr-3" />
                                         <StyledText className="text-white text-xl font-semibold">Performance Anxiety</StyledText>
                                     </StyledView>
-                                    <StyledText className="text-white text-2xl font-bold">5</StyledText>
+                                    <StyledText className="text-white text-2xl font-bold">{Math.round(performanceAverages.average_anxiety)}</StyledText>
                                 </StyledView>
                             </StyledTouchableOpacity>
 
@@ -284,7 +340,7 @@ const Home = () => {
                                         <Image source={Enjoyment} className="w-6 h-6 mr-3" />
                                         <StyledText className="text-white text-xl font-bold">Enjoyment</StyledText>
                                     </StyledView>
-                                    <StyledText className="text-white text-2xl font-bold">9</StyledText>
+                                    <StyledText className="text-white text-2xl font-bold">{Math.round(performanceAverages.average_enjoyment)}</StyledText>
                                 </StyledView>
                             </StyledTouchableOpacity>
 
@@ -297,7 +353,7 @@ const Home = () => {
                                         <Image source={Stress} className="w-6 h-6 mr-3" />
                                         <StyledText className="text-white text-xl font-semibold">Burnout</StyledText>
                                     </StyledView>
-                                    <StyledText className="text-white text-2xl font-bold">4</StyledText>
+                                    <StyledText className="text-white text-2xl font-bold">{Math.round(performanceAverages.average_burnout)}</StyledText>
                                 </StyledView>
                             </StyledTouchableOpacity>
 
@@ -310,7 +366,7 @@ const Home = () => {
                                         <Image source={Confidence} className="w-6 h-6 mr-3" />
                                         <StyledText className="text-white text-xl font-semibold">Confidence</StyledText>
                                     </StyledView>
-                                    <StyledText className="text-white text-2xl font-bold">8</StyledText>
+                                    <StyledText className="text-white text-2xl font-bold">{Math.round(performanceAverages.average_confidence)}</StyledText>
                                 </StyledView>
                             </StyledTouchableOpacity>
                         </StyledView>
