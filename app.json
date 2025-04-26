@@ -26,7 +26,7 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.elite-prep.app",
-      "buildNumber": "1.0.1",
+      "buildNumber": "2",
       "infoPlist": {
         "NSPhotoLibraryUsageDescription": "Allow Elite Prep to access your photos.",
         "NSCameraUsageDescription": "Allow Elite Prep to access your camera.",
