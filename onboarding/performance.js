@@ -79,13 +79,19 @@ const Performance = ({ navigation }) => {
     return (
         <SafeAreaView className="flex-1 bg-[#1C1C1D]">
             <ScrollView className="flex-1">
-                <StyledView className="px-5">
-                    <StyledView className="items-center -mt-12 -mb-16">
+                <StyledView className="px-5 py-6">
+                    <StyledView className="flex-row justify-end ">
+                        <StyledTouchableOpacity onPress={() => navigation.navigate('Settings')}>
+                            <Ionicons name="settings-outline" size={24} color="#FFFFFF" />
+                        </StyledTouchableOpacity>
+                    </StyledView>
+
+                    <StyledView className="items-center -mt-24 -mb-16">
                         <Image
                             source={Logo}
-                            className="w-60 h-60"
+                            className="w-52 h-52"
                             resizeMode="contain"
-                        />
+                        /> 
                     </StyledView>
 
                     {/* Time Period Toggle */}
@@ -96,8 +102,8 @@ const Performance = ({ navigation }) => {
                                     key={period.id}
                                     onPress={() => setSelectedPeriod(period.id)}
                                     className={`flex-1 py-2 px-4 rounded-lg mx-1 overflow-hidden relative ${selectedPeriod === period.id
-                                            ? 'bg-transparent'
-                                            : 'bg-transparent'
+                                        ? 'bg-transparent'
+                                        : 'bg-transparent'
                                         }`}
                                 >
                                     {selectedPeriod === period.id && (
@@ -117,8 +123,8 @@ const Performance = ({ navigation }) => {
                                     )}
                                     <StyledText
                                         className={`text-center font-medium relative z-10 ${selectedPeriod === period.id
-                                                ? 'text-white'
-                                                : 'text-[#89898A]'
+                                            ? 'text-white'
+                                            : 'text-[#89898A]'
                                             }`}
                                     >
                                         {period.label}
@@ -168,7 +174,7 @@ const Performance = ({ navigation }) => {
                     {/* Practice Type Breakdown */}
                     <StyledView className="bg-[#3D3D3E] rounded-lg p-4 mb-3">
                         <StyledText className="text-white text-lg font-semibold mb-4">Practice Type</StyledText>
-                        
+
                         {/* Color Indicators and Labels */}
                         <StyledView className="flex-row justify-between mb-2">
                             <StyledView className="flex-row items-center">
@@ -209,14 +215,14 @@ const Performance = ({ navigation }) => {
                                     style={{ width: `${currentData.practiceType.equipment}%` }}
                                 />
                             </StyledView>
-                        
+
                         </StyledView>
                     </StyledView>
 
                     {/* Skills Practiced */}
                     <StyledView className="bg-[#3D3D3E] rounded-lg p-4 mb-3">
                         <StyledText className="text-white text-lg font-semibold mb-4">Skills Practiced</StyledText>
-                        
+
                         {/* Color Indicators and Labels */}
                         <StyledView className="flex-row justify-between mb-2">
                             <StyledView className="flex-row items-center">
@@ -235,7 +241,7 @@ const Performance = ({ navigation }) => {
                                 <StyledView className="w-3 h-3 bg-indigo-400 rounded-full mr-1" />
                                 <StyledText className="text-white text-sm">Putting</StyledText>
                             </StyledView>
-                            
+
                         </StyledView>
 
                         {/* Bar Graph with Percentages */}
@@ -258,7 +264,7 @@ const Performance = ({ navigation }) => {
                                     style={{ width: `${currentData.practiceType.equipment}%` }}
                                 />
                             </StyledView>
-                        
+
                         </StyledView>
                     </StyledView>
 
